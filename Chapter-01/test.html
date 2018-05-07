@@ -1,0 +1,96 @@
+<html>
+
+<header>
+
+  <!--<style type="text/css">-->
+    <!--/* 可以设置不同的进入和离开动画 */-->
+    <!--/* 设置持续时间和动画函数 */-->
+    <!--.slide-fade-enter-active {-->
+      <!--transition: all .3s ease;-->
+    <!--}-->
+    <!--.slide-fade-leave-active {-->
+      <!--transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);-->
+    <!--}-->
+    <!--.slide-fade-enter, .slide-fade-leave-to-->
+      <!--/* .slide-fade-leave-active for below version 2.1.8 */ {-->
+      <!--transform: translateX(10px);-->
+      <!--opacity: 0;-->
+    <!--}-->
+  <!--</style>-->
+</header>
+
+
+
+
+<body>
+<div id="app">
+  <div id="components-demo">
+    <button-counter></button-counter>
+    <button-counter></button-counter>
+    <button-counter></button-counter>
+  </div>
+
+
+  <button @click="show = !show">
+    Toggle render
+  </button>
+  <transition name="fade" mode="out-in">
+    <p v-show="show">hello</p>
+  </transition>
+
+  <input v-focus>
+
+</div>
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<script>
+// 定义一个名为 button-counter 的新组件
+Vue.component('button-counter', {
+  data: function () {
+    return {
+      count: 0
+    }
+  },
+  template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+})
+
+new Vue({ el: '#app' ,
+data:{
+  show:true
+},
+  directives: {
+    focus: {
+      // 指令的定义
+      inserted: function (el) {
+        el.focus()
+      }
+    }
+  }
+})
+
+const NotFound = { template: '<p>Page not found</p>' }
+const Home = { template: '<p>home page</p>' }
+const About = { template: '<p>about page</p>' }
+
+const routes = {
+  '/': Home,
+  '/about': About
+}
+
+new Vue({
+  el: '#app',
+  data: {
+    currentRoute: window.location.pathname
+  },
+  computed: {
+    ViewComponent () {
+      return routes[this.currentRoute] || NotFound
+    }
+  },
+  render (h) { return h(this.ViewComponent) }
+})
+</script>
+
+</html>
