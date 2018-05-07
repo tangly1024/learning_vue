@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Routing Example App</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!--<script src="./dist/build.js"></script>-->
+  </body>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+
+  <script>
+
+    var routes = {
+        '/': 'Home',
+        '/about': 'About',
+        '/test':'Test'
+    }
+
+    const app = new Vue({
+        el: '#app',
+        data: {
+            currentRoute: window.location.pathname
+        },
+        computed: {
+            ViewComponent () {
+                const matchingView = routes[this.currentRoute]
+                return matchingView
+                    ? require('./pages/' + matchingView + '.vue')
+                    : require('./pages/404.vue')
+            }
+        },
+        render (h) {
+            return h(this.ViewComponent)
+        }
+    })
+
+    window.addEventListener('popstate', () => {
+        app.currentRoute = window.location.pathname
+    })
+
+</script>
+</html>
