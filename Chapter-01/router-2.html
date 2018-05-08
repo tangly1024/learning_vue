@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.1/vue-router.js"></script>
+</head>
+<body>
+<div id="box">
+    <ul>
+        <li>
+            <router-link to='/home'>主页</router-link>
+        </li>
+        <li>
+            <router-link to='/news'>新闻</router-link>
+        </li>
+    </ul>
+    <!--路由配置的组件将会渲染在这里-->
+    <router-view></router-view>
+</div>
+<template id="home">
+    <h3>我是主页</h3>
+</template>
+<template id="news">
+    <h3>我是新闻</h3>
+</template>
+</body>
+<script>
+    var Home = {
+        template: '#home'
+    };
+    var News = {
+        template: '#news'
+    };
+    //准备、定义路由
+    var routers = [
+        {path: '/home', component: Home},
+        {path: '/', component: Home},
+        {path: '/news', component: News}
+    ];
+    //创建router实例
+    var router = new VueRouter({
+        routes: routers
+    });
+    //创建和挂载根实例
+    var app = new Vue({
+        router: router
+    }).$mount('#box');
+</script>
+</html>
