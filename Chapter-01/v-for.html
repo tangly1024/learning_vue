@@ -1,0 +1,42 @@
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<header>
+</header>
+
+
+<body>
+<div id="app">
+  <button @click="show = !show">
+    Toggle render
+  </button>
+  <p v-show="show">hello</p>
+  <input v-focus placeholder="测试聚焦">
+<!--用key值提升渲染性能-->
+  <ul v-for="(item,index) in items" :key="item">
+    <li v-text="item + ' ' + index"></li>
+  </ul>
+</div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<script>
+
+  new Vue({
+    el: '#app',
+    data: {
+      show: true,
+      items: [1,2,3]
+    },
+    directives: {
+      focus: {
+        // 指令的定义
+        inserted: function (el) {
+          el.focus()
+        }
+      }
+    }
+  })
+
+</script>
+
+</html>
