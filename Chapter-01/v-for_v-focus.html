@@ -12,8 +12,8 @@
   <p v-show="show">hello</p>
   <input v-focus placeholder="测试聚焦">
 <!--用key值提升渲染性能-->
-  <ul v-for="(item,index) in items" :key="item">
-    <li v-text="item + ' ' + index"></li>
+  <ul>
+    <li v-for="(item,index) in items" :key="item" v-text="item + ' ' + index"></li>
   </ul>
 </div>
 </body>
