@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.1/vue-router.js"></script>
+</head>
+<body>
+<div id="box">
+
+    <label>姓</label><input v-model="firstName">
+    <label>名</label><input v-model="lastName">
+    <label>全名</label><textarea>{{ fullName }}</textarea>
+    <label>计数</label><textarea>{{ count }}</textarea>
+</div>
+</body>
+<script>
+    //创建和挂载根实例
+    var app = new Vue({
+        el: "#box",
+        data: {
+            firstName: '',
+            lastName: '',
+            count : 0
+        },
+        computed: {
+            fullName: function(){
+                return this.firstName + ' ' + this.lastName
+            }
+        },
+        watch: {
+            fullName: function(newValue,oldValue){
+                this.count ++
+            }
+        }
+
+    }).$mount('#box');
+</script>
+</html>
