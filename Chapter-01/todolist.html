@@ -6,11 +6,19 @@
 <body>
 <div id="app">
   <p  :class="{title : title}" @click="title = ! title">TODO LIST</p>
-  <input v-model="newItem">
+  <input v-model="newItem" @keyup.enter="submit">
   <button @click="submit">新增</button>
   <!--用key值提升渲染性能-->
   <ul >
-    <todo-list v-for="(item,index) in items" :key="item.index" v-text="item.name" :content="item"> </todo-list>
+    <todo-list
+        v-for="(item,index) in items"
+        :key="item.index"
+        v-text="item.name"
+        :content="item"
+        :index="index"
+        @delete="handleDelete"
+    >
+    </todo-list>
   </ul>
 </div>
 </body>
@@ -19,12 +27,14 @@
 <script>
 
   Vue.component('todo-list',{
-    props: ['content'],
+    props: ['content','index'],
     template: '<li @click="handleClick" >{{content.name}}</li>',
     methods: {
       handleClick: function(){
         console.log(this.content)
         this.content.finished = ! this.content.finished;
+        console.log('请求父组件删除 ' + this.index)
+        this.$emit('delete',this.index)
       }
     }
   })
@@ -35,15 +45,16 @@
       show: true,
       title: true,
       newItem: '',
-      items: [
-        {name: '测试1',finished: false },
-        {name: '测试2',finished: false }
-        ]
+      items: []
     },
     methods: {
       submit: function(){
         this.items.push({name: this.newItem, finished: false})
         this.newItem = '';
+      },
+      handleDelete: function(index){
+        console.log('子组件 ' + index + ' 请求删除')
+        this.items.splice(index,1);
       }
     }
   })
